@@ -30,6 +30,7 @@
     </header>
 
     <main class="max-w-7xl mx-auto p-6 grid gap-6 md:grid-cols-4">
+      <!-- Directory (left large) -->
       <section class="md:col-span-3 space-y-4">
         <div class="flex items-center justify-between">
           <h2 class="text-lg font-semibold text-purple-200">Directory</h2>
@@ -72,6 +73,7 @@
 
       </section>
 
+      <!-- Sidebar -->
       <aside class="space-y-4">
         <div class="bg-slate-900/60 border border-purple-800 rounded-2xl p-4">
           <h3 class="font-semibold text-purple-100">Quick Filters</h3>
@@ -120,6 +122,7 @@
       </aside>
     </main>
 
+    <!-- Ethics modal -->
     <div x-show="showEthics" class="fixed inset-0 bg-black/70 flex items-center justify-center p-6" style="display:none">
       <div class="bg-slate-900 border border-purple-800 rounded-2xl p-6 max-w-2xl w-full" @click.away="showEthics=false">
         <div class="flex items-center justify-between">
@@ -149,6 +152,7 @@
         filteredCategories: [],
 
         init(){
+          // Massive curated categories & links (original collection of public resources). This is large but not exhaustive.
           this.categories = [
             { id:'username', title:'Username / Handles', desc:'Search availability, mentions, and profiles', open:false, links:[
               {name:'Namechk', href:'https://namechk.com', tag:'availability'},
@@ -158,34 +162,196 @@
               {name:'Knowem', href:'https://knowem.com', tag:'profiles'},
               {name:'TrendyUsers (GitHub)', href:'https://github.com', tag:'devtools'}
             ]},
-            // ... (rest of categories as in original)
+
+            { id:'domain', title:'Domain & DNS', desc:'WHOIS, DNS, SSL and domain intelligence', open:false, links:[
+              {name:'ICANN WHOIS', href:'https://whois.icann.org/', tag:'whois'},
+              {name:'DomainTools WHOIS', href:'https://whois.domaintools.com/', tag:'whois'},
+              {name:'WhoisXML API', href:'https://www.whoisxmlapi.com/', tag:'api'},
+              {name:'SecurityTrails', href:'https://securitytrails.com/', tag:'intel'},
+              {name:'DNSDumpster', href:'https://dnsdumpster.com/', tag:'dns'},
+              {name:'MXToolbox', href:'https://mxtoolbox.com', tag:'dns'},
+              {name:'crt.sh', href:'https://crt.sh', tag:'certificates'},
+              {name:'BuiltWith', href:'https://builtwith.com', tag:'techlookup'},
+            ]},
+
+            { id:'ip', title:'IP, Hosts & Network', desc:'IP lookups, host discovery, exposed services', open:false, links:[
+              {name:'IPinfo', href:'https://ipinfo.io/', tag:'ip'},
+              {name:'ipapi', href:'https://ipapi.co/', tag:'ip'},
+              {name:'Shodan', href:'https://www.shodan.io/', tag:'hosts'},
+              {name:'Censys', href:'https://censys.io/', tag:'hosts'},
+              {name:'ZoomEye', href:'https://www.zoomeye.org/', tag:'hosts'},
+              {name:'Spyse', href:'https://spyse.com/', tag:'intel'},
+              {name:'AbuseIPDB', href:'https://www.abuseipdb.com/', tag:'reputation'}
+            ]},
+
+            { id:'images', title:'Images / Reverse Image', desc:'Find image origin and copies', open:false, links:[
+              {name:'TinEye', href:'https://tineye.com', tag:'reverse'},
+              {name:'Google Images (reverse)', href:'https://images.google.com', tag:'reverse'},
+              {name:'Bing Visual Search', href:'https://www.bing.com/visualsearch', tag:'reverse'},
+              {name:'Yandex Images', href:'https://yandex.com/images', tag:'reverse'},
+              {name:'Exif.tools', href:'https://exif.tools', tag:'metadata'}
+            ]},
+
+            { id:'social', title:'Social Media & Mentions', desc:'Search public social posts, hashtags and mentions', open:false, links:[
+              {name:'SocialSearcher', href:'https://www.social-searcher.com/', tag:'mentions'},
+              {name:'Social Bearing (Twitter)', href:'https://socialbearing.com/', tag:'twitter'},
+              {name:'Nitter (Twitter frontend)', href:'https://nitter.net', tag:'twitter'},
+              {name:'Invidious (YouTube frontend)', href:'https://yewtu.be', tag:'youtube'},
+              {name:'Reddit Search', href:'https://www.reddit.com/search', tag:'reddit'},
+              {name:'Wayback Social Capture (example)', href:'https://web.archive.org', tag:'archives'}
+            ]},
+
+            { id:'archives', title:'Web Archives & Snapshots', desc:'Historical snapshots and archived content', open:false, links:[
+              {name:'Wayback Machine', href:'https://web.archive.org', tag:'archive'},
+              {name:'Archive.today (archive.ph)', href:'https://archive.ph', tag:'archive'},
+              {name:'Common Crawl', href:'https://commoncrawl.org', tag:'dataset'},
+              {name:'Internet Archive', href:'https://archive.org', tag:'archive'}
+            ]},
+
+            { id:'meta', title:'File & Metadata Analysis', desc:'Exif, metadata, and file intelligence', open:false, links:[
+              {name:'ExifTool', href:'https://exiftool.org', tag:'metadata'},
+              {name:'Jeffrey’s Exif Viewer', href:'http://exif.regex.info/exif.cgi', tag:'metadata'},
+              {name:'VirusTotal', href:'https://www.virustotal.com', tag:'file'},
+              {name:'Hybrid Analysis', href:'https://www.hybrid-analysis.com', tag:'sandbox'},
+              {name:'Any.Run', href:'https://any.run/', tag:'sandbox'}
+            ]},
+
+            { id:'maps', title:'Maps & Geolocation', desc:'Satellite imagery, map tools and geolocation resources', open:false, links:[
+              {name:'Google Maps', href:'https://maps.google.com', tag:'maps'},
+              {name:'OpenStreetMap', href:'https://www.openstreetmap.org', tag:'maps'},
+              {name:'Sentinel Hub', href:'https://www.sentinel-hub.com', tag:'satellite'},
+              {name:'Mapillary', href:'https://www.mapillary.com', tag:'streetview'},
+              {name:'EXIF GPS Extractor (example)', href:'https://regex.info/exif.cgi', tag:'gps'}
+            ]},
+
+            { id:'people', title:'People Search & Background', desc:'Public record & people search resources', open:false, links:[
+              {name:'Pipl (commercial)', href:'https://pipl.com', tag:'people'},
+              {name:'TruePeopleSearch', href:'https://www.truepeoplesearch.com', tag:'people'},
+              {name:'OpenCorporates', href:'https://opencorporates.com', tag:'companies'},
+              {name:'EDGAR (SEC filings)', href:'https://www.sec.gov/edgar.shtml', tag:'filings'}
+            ]},
+
+            { id:'gov', title:'Government & Records', desc:'Public government databases and registries', open:false, links:[
+              {name:'SEC EDGAR', href:'https://www.sec.gov/edgar.shtml', tag:'filings'},
+              {name:'US Census', href:'https://www.census.gov', tag:'data'},
+              {name:'data.gov', href:'https://www.data.gov', tag:'data'},
+              {name:'European Union Open Data', href:'https://data.europa.eu', tag:'data'}
+            ]},
+
+            { id:'tech', title:'Technology & Fingerprinting', desc:'Site tech stacks, headers, and fingerprinting', open:false, links:[
+              {name:'BuiltWith', href:'https://builtwith.com', tag:'techstack'},
+              {name:'Wappalyzer', href:'https://www.wappalyzer.com', tag:'techstack'},
+              {name:'Security Headers', href:'https://securityheaders.com', tag:'headers'}
+            ]},
+
+            { id:'cert', title:'Certificates & TLS', desc:'Certificate transparency and TLS analysis', open:false, links:[
+              {name:'crt.sh', href:'https://crt.sh', tag:'cert'},
+              {name:'SSL Labs', href:'https://www.ssllabs.com/ssltest/', tag:'tls'},
+              {name:'Censys (certs)', href:'https://censys.io', tag:'certs'}
+            ]},
+
+            { id:'intel', title:'Threat Intel & Malware', desc:'Reputation, indicators, and malware analysis', open:false, links:[
+              {name:'VirusTotal', href:'https://www.virustotal.com', tag:'malware'},
+              {name:'AlienVault OTX', href:'https://otx.alienvault.com', tag:'intel'},
+              {name:'AbuseIPDB', href:'https://www.abuseipdb.com', tag:'reputation'},
+              {name:'GreyNoise', href:'https://www.greynoise.io', tag:'noise'}
+            ]},
+
+            { id:'code', title:'Code & GitHub Search', desc:'Search code, repos, and leaked credentials (official sites only)', open:false, links:[
+              {name:'GitHub Search', href:'https://github.com/search', tag:'code'},
+              {name:'GitHub Advanced Search', href:'https://github.com/search/advanced', tag:'code'},
+              {name:'GitLab', href:'https://gitlab.com', tag:'code'}
+            ]},
+
+            { id:'media', title:'Media & News', desc:'News archives, broadcast media archives and monitoring', open:false, links:[
+              {name:'Google News', href:'https://news.google.com', tag:'news'},
+              {name:'Bing News', href:'https://www.bing.com/news', tag:'news'},
+              {name:'LexisNexis (commercial)', href:'https://www.lexisnexis.com', tag:'archives'}
+            ]},
+
+            { id:'misc', title:'Misc Utilities', desc:'Helpers: shorteners, encoders, validators', open:false, links:[
+              {name:'URL Decode / Encode (urldecoder.org)', href:'https://www.urldecoder.org/', tag:'encode'},
+              {name:'Regex Tester (regex101)', href:'https://regex101.com', tag:'dev'},
+              {name:'Timezone Converter', href:'https://www.timeanddate.com/worldclock/converter.html', tag:'time'}
+            ]}
           ];
 
+          // populate tags dynamically
           const tagSet = new Set();
           this.categories.forEach(c=>c.links.forEach(l=>{ if(l.tag) tagSet.add(l.tag); }));
           this.tags = Array.from(tagSet);
+
+          // default filtered
           this.filteredCategories = JSON.parse(JSON.stringify(this.categories));
           this.resultsCount = this.countResults();
+
+          // load projects
           this.projects = JSON.parse(localStorage.getItem('pd_projects') || '[]');
         },
 
         toggle(i){ this.filteredCategories[i].open = !this.filteredCategories[i].open; },
-        applyFilter(){ /* same as original */ },
-        countResults(){ /* same as original */ },
-        clearFilter(){ /* same as original */ },
-        toggleTag(t){ /* same as original */ },
 
-        saveProject(){ /* same as original */ },
-        exportProject(){ /* same as original */ },
-        loadProject(id){ /* same as original */ },
-        deleteProject(id){ /* same as original */ },
+        applyFilter(){
+          const q = (this.searchQ||'').trim().toLowerCase();
+          const active = this.activeTags.slice();
+
+          const filtered = this.categories.map(cat=>{
+            // filter links
+            const links = cat.links.filter(l=>{
+              const text = (l.name + ' ' + (l.tag||'') + ' ' + (l.desc||'')).toLowerCase();
+              const matchQ = !q || text.includes(q) || cat.title.toLowerCase().includes(q) || (cat.desc||'').toLowerCase().includes(q);
+              const matchTag = !active.length || (l.tag && active.includes(l.tag));
+              return matchQ && matchTag;
+            });
+            if(links.length) return {...cat, open:true, links};
+            // also include category if q matches title/desc even if links filtered out
+            const catMatches = q && (cat.title.toLowerCase().includes(q) || (cat.desc||'').toLowerCase().includes(q));
+            if(catMatches) return {...cat, open:true, links:cat.links};
+            return null;
+          }).filter(Boolean);
+
+          this.filteredCategories = filtered;
+          this.resultsCount = this.countResults();
+        },
+
+        countResults(){
+          return this.filteredCategories.reduce((acc,c)=>acc + (c.links ? c.links.length : 0), 0);
+        },
+
+        clearFilter(){ this.searchQ=''; this.activeTags=[]; this.filteredCategories = JSON.parse(JSON.stringify(this.categories)); this.resultsCount = this.countResults(); },
+
+        toggleTag(t){
+          const idx = this.activeTags.indexOf(t);
+          if(idx === -1) this.activeTags.push(t); else this.activeTags.splice(idx,1);
+          this.applyFilter();
+        },
+
+        /* Projects */
+        saveProject(){
+          const name = (document.getElementById('projName').value || '').trim();
+          const notes = (document.getElementById('projNotes').value || '').trim();
+          const p = { id: Date.now(), name: name || 'Project ' + new Date().toLocaleString(), notes, created: new Date().toISOString() };
+          this.projects.unshift(p);
+          localStorage.setItem('pd_projects', JSON.stringify(this.projects));
+          document.getElementById('projName').value=''; document.getElementById('projNotes').value='';
+        },
+        exportProject(){
+          const name = (document.getElementById('projName').value || 'pd_export').replace(/[^a-z0-9_-]/ig,'_');
+          const notes = document.getElementById('projNotes').value || '';
+          const obj = { name, notes, exported: new Date().toISOString() };
+          const blob = new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+          const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download = name + '.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+        },
+        loadProject(id){ const p = this.projects.find(x=>x.id===id); if(!p) return; document.getElementById('projName').value=p.name; document.getElementById('projNotes').value=p.notes; },
+        deleteProject(id){ if(!confirm('Delete project?')) return; this.projects=this.projects.filter(x=>x.id!==id); localStorage.setItem('pd_projects', JSON.stringify(this.projects)); },
+
       }
     }
 
+    // Alpine data registration
     document.addEventListener('alpine:init', () => {
       Alpine.data('ultimateApp', ultimateApp);
     });
   </script>
-
 </body>
 </html>
